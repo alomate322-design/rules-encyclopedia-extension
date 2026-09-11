@@ -1,0 +1,15 @@
+{
+  "name": "Энциклопедия правил",
+  "version": "1.0.0",
+  "manifest_version": 1,
+  "description": "Быстрый поиск по правилам D&D 5e (2014) — классы, заклинания, монстры, состояния и снаряжение прямо в Owlbear Rodeo",
+  "icon": "/icon.svg",
+  "author": "Никита",
+  "action": {
+    "title": "Энциклопедия правил",
+    "icon": "/icon.svg",
+    "popover": "/index.html",
+    "width": 460,
+    "height": 700
+  }
+}
