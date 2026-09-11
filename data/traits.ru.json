@@ -1,0 +1,1735 @@
+[
+  {
+    "index": "darkvision",
+    "races": [
+      {
+        "index": "dwarf",
+        "name": "Dwarf",
+        "url": "/api/2014/races/dwarf"
+      },
+      {
+        "index": "elf",
+        "name": "Elf",
+        "url": "/api/2014/races/elf"
+      },
+      {
+        "index": "gnome",
+        "name": "Gnome",
+        "url": "/api/2014/races/gnome"
+      },
+      {
+        "index": "half-elf",
+        "name": "Half-Elf",
+        "url": "/api/2014/races/half-elf"
+      },
+      {
+        "index": "half-orc",
+        "name": "Half-Orc",
+        "url": "/api/2014/races/half-orc"
+      },
+      {
+        "index": "tiefling",
+        "name": "Tiefling",
+        "url": "/api/2014/races/tiefling"
+      }
+    ],
+    "subraces": [],
+    "name": "Тёмное зрение",
+    "desc": [
+      "У вас превосходное зрение в темноте и полумраке. Вы можете видеть в тусклом свете в пределах 60 футов от себя, как будто это яркий свет, а в темноте — как будто это тусклый свет. Вы не различаете цвета в темноте, только оттенки серого."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/darkvision"
+  },
+  {
+    "index": "dwarven-resilience",
+    "races": [
+      {
+        "index": "dwarf",
+        "name": "Dwarf",
+        "url": "/api/2014/races/dwarf"
+      }
+    ],
+    "subraces": [],
+    "name": "Дварфийская стойкость",
+    "desc": [
+      "У вас преимущество на спасброски против яда, и у вас сопротивление урону ядом."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/dwarven-resilience"
+  },
+  {
+    "index": "dwarven-combat-training",
+    "races": [
+      {
+        "index": "dwarf",
+        "name": "Dwarf",
+        "url": "/api/2014/races/dwarf"
+      }
+    ],
+    "subraces": [],
+    "name": "Дварфийская боевая подготовка",
+    "desc": [
+      "Вы владеете боевым топором, ручным топором, лёгким молотом и боевым молотом."
+    ],
+    "proficiencies": [
+      {
+        "index": "battleaxes",
+        "name": "Battleaxes",
+        "url": "/api/2014/proficiencies/battleaxes"
+      },
+      {
+        "index": "handaxes",
+        "name": "Handaxes",
+        "url": "/api/2014/proficiencies/handaxes"
+      },
+      {
+        "index": "light-hammers",
+        "name": "Light hammers",
+        "url": "/api/2014/proficiencies/light-hammers"
+      },
+      {
+        "index": "warhammers",
+        "name": "Warhammers",
+        "url": "/api/2014/proficiencies/warhammers"
+      }
+    ],
+    "url": "/api/2014/traits/dwarven-combat-training"
+  },
+  {
+    "index": "tool-proficiency",
+    "races": [
+      {
+        "index": "dwarf",
+        "name": "Dwarf",
+        "url": "/api/2014/races/dwarf"
+      }
+    ],
+    "subraces": [],
+    "name": "Владение инструментами",
+    "desc": [
+      "Вы получаете владение одним из наборов инструментов ремесленника на выбор: инструментами кузнеца, снаряжением пивовара или инструментами каменщика."
+    ],
+    "proficiencies": [],
+    "proficiency_choices": {
+      "choose": 1,
+      "type": "proficiencies",
+      "from": {
+        "option_set_type": "options_array",
+        "options": [
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "smiths-tools",
+              "name": "Smith's Tools",
+              "url": "/api/2014/proficiencies/smiths-tools"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "brewers-supplies",
+              "name": "Brewer's Supplies",
+              "url": "/api/2014/proficiencies/brewers-supplies"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "masons-tools",
+              "name": "Mason's Tools",
+              "url": "/api/2014/proficiencies/masons-tools"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/tool-proficiency"
+  },
+  {
+    "index": "stonecunning",
+    "races": [
+      {
+        "index": "dwarf",
+        "name": "Dwarf",
+        "url": "/api/2014/races/dwarf"
+      }
+    ],
+    "subraces": [],
+    "name": "Чувство камня",
+    "desc": [
+      "Когда вы совершаете проверку Интеллекта (История), связанную с происхождением каменной кладки, вы считаетесь владеющим навыком История и прибавляете удвоенный бонус мастерства к проверке вместо обычного бонуса мастерства."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/stonecunning"
+  },
+  {
+    "index": "dwarven-toughness",
+    "races": [],
+    "subraces": [
+      {
+        "index": "hill-dwarf",
+        "name": "Hill Dwarf",
+        "url": "/api/2014/subraces/hill-dwarf"
+      }
+    ],
+    "name": "Дварфийская выносливость",
+    "desc": [
+      "Максимум ваших хитов увеличивается на 1, и увеличивается ещё на 1 каждый раз, когда вы получаете новый уровень."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/dwarven-toughness"
+  },
+  {
+    "index": "keen-senses",
+    "races": [
+      {
+        "index": "elf",
+        "name": "Elf",
+        "url": "/api/2014/races/elf"
+      }
+    ],
+    "subraces": [],
+    "name": "Острые чувства",
+    "desc": [
+      "Вы владеете навыком Восприятие."
+    ],
+    "proficiencies": [
+      {
+        "index": "skill-perception",
+        "name": "Skill: Perception",
+        "url": "/api/2014/proficiencies/skill-perception"
+      }
+    ],
+    "url": "/api/2014/traits/keen-senses"
+  },
+  {
+    "index": "fey-ancestry",
+    "races": [
+      {
+        "index": "elf",
+        "name": "Elf",
+        "url": "/api/2014/races/elf"
+      },
+      {
+        "index": "half-elf",
+        "name": "Half-Elf",
+        "url": "/api/2014/races/half-elf"
+      }
+    ],
+    "subraces": [],
+    "name": "Родство с феями",
+    "desc": [
+      "У вас преимущество на спасброски против очарования, и магия не может погрузить вас в сон."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/fey-ancestry"
+  },
+  {
+    "index": "trance",
+    "races": [
+      {
+        "index": "elf",
+        "name": "Elf",
+        "url": "/api/2014/races/elf"
+      }
+    ],
+    "subraces": [],
+    "name": "Транс",
+    "desc": [
+      "Эльфам не нужен сон. Вместо этого они погружаются в глубокую медитацию, оставаясь полусознательными, на 4 часа в сутки. (На Общем языке такую медитацию называют «трансом».) Во время медитации вы можете видеть своего рода сны — на самом деле это мысленные упражнения, ставшие рефлекторными благодаря годам практики. После такого отдыха вы получаете тот же эффект, что и человек после 8 часов сна."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/trance"
+  },
+  {
+    "index": "elf-weapon-training",
+    "races": [],
+    "subraces": [
+      {
+        "index": "high-elf",
+        "name": "High Elf",
+        "url": "/api/2014/subraces/high-elf"
+      }
+    ],
+    "name": "Владение эльфийским оружием",
+    "desc": [
+      "Вы владеете длинным мечом, коротким мечом, коротким луком и длинным луком."
+    ],
+    "proficiencies": [
+      {
+        "index": "longswords",
+        "name": "Longswords",
+        "url": "/api/2014/proficiencies/longswords"
+      },
+      {
+        "index": "shortswords",
+        "name": "Shortswords",
+        "url": "/api/2014/proficiencies/shortswords"
+      },
+      {
+        "index": "shortbows",
+        "name": "Shortbows",
+        "url": "/api/2014/proficiencies/shortbows"
+      },
+      {
+        "index": "longbows",
+        "name": "Longbows",
+        "url": "/api/2014/proficiencies/longbows"
+      }
+    ],
+    "url": "/api/2014/traits/elf-weapon-training"
+  },
+  {
+    "index": "high-elf-cantrip",
+    "races": [],
+    "subraces": [
+      {
+        "index": "high-elf",
+        "name": "High Elf",
+        "url": "/api/2014/subraces/high-elf"
+      }
+    ],
+    "name": "Заговор высшего эльфа",
+    "desc": [
+      "Вы знаете один заговор на выбор из списка заклинаний волшебника. Интеллект является вашей базовой характеристикой для заклинаний для этого заговора."
+    ],
+    "proficiencies": [],
+    "trait_specific": {
+      "spell_options": {
+        "choose": 1,
+        "from": {
+          "option_set_type": "options_array",
+          "options": [
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "light",
+                "name": "Light",
+                "url": "/api/2014/spells/light"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "mage-hand",
+                "name": "Mage Hand",
+                "url": "/api/2014/spells/mage-hand"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "mending",
+                "name": "Mending",
+                "url": "/api/2014/spells/mending"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "message",
+                "name": "Message",
+                "url": "/api/2014/spells/message"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "minor-illusion",
+                "name": "Minor Illusion",
+                "url": "/api/2014/spells/minor-illusion"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "acid-splash",
+                "name": "Acid Splash",
+                "url": "/api/2014/spells/acid-splash"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "prestidigitation",
+                "name": "Prestidigitation",
+                "url": "/api/2014/spells/prestidigitation"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "ray-of-frost",
+                "name": "Ray of Frost",
+                "url": "/api/2014/spells/ray-of-frost"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "shocking-grasp",
+                "name": "Shocking Grasp",
+                "url": "/api/2014/spells/shocking-grasp"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "true-strike",
+                "name": "True Strike",
+                "url": "/api/2014/spells/true-strike"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "chill-touch",
+                "name": "Chill Touch",
+                "url": "/api/2014/spells/chill-touch"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "dancing-lights",
+                "name": "Dancing Lights",
+                "url": "/api/2014/spells/dancing-lights"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "fire-bolt",
+                "name": "Fire Bolt",
+                "url": "/api/2014/spells/fire-bolt"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "poison-spray",
+                "name": "Poison Spray",
+                "url": "/api/2014/spells/poison-spray"
+              }
+            }
+          ]
+        },
+        "type": "spell"
+      }
+    },
+    "url": "/api/2014/traits/high-elf-cantrip"
+  },
+  {
+    "index": "extra-language",
+    "races": [],
+    "subraces": [
+      {
+        "index": "high-elf",
+        "name": "High Elf",
+        "url": "/api/2014/subraces/high-elf"
+      }
+    ],
+    "name": "Дополнительный язык",
+    "desc": [
+      "Вы можете говорить, читать и писать на одном дополнительном языке по вашему выбору."
+    ],
+    "proficiencies": [],
+    "language_options": {
+      "choose": 1,
+      "type": "languages",
+      "from": {
+        "option_set_type": "options_array",
+        "options": [
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "dwarvish",
+              "name": "Dwarvish",
+              "url": "/api/2014/languages/dwarvish"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "giant",
+              "name": "Giant",
+              "url": "/api/2014/languages/giant"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "gnomish",
+              "name": "Gnomish",
+              "url": "/api/2014/languages/gnomish"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "goblin",
+              "name": "Goblin",
+              "url": "/api/2014/languages/goblin"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "halfling",
+              "name": "Halfling",
+              "url": "/api/2014/languages/halfling"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "orc",
+              "name": "Orc",
+              "url": "/api/2014/languages/orc"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "abyssal",
+              "name": "Abyssal",
+              "url": "/api/2014/languages/abyssal"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "celestial",
+              "name": "Celestial",
+              "url": "/api/2014/languages/celestial"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "draconic",
+              "name": "Draconic",
+              "url": "/api/2014/languages/draconic"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "deep-speech",
+              "name": "Deep Speech",
+              "url": "/api/2014/languages/deep-speech"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "infernal",
+              "name": "Infernal",
+              "url": "/api/2014/languages/infernal"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "primordial",
+              "name": "Primordial",
+              "url": "/api/2014/languages/primordial"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "sylvan",
+              "name": "Sylvan",
+              "url": "/api/2014/languages/sylvan"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "undercommon",
+              "name": "Undercommon",
+              "url": "/api/2014/languages/undercommon"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/extra-language"
+  },
+  {
+    "index": "lucky",
+    "races": [
+      {
+        "index": "halfling",
+        "name": "Halfling",
+        "url": "/api/2014/races/halfling"
+      }
+    ],
+    "subraces": [],
+    "name": "Везучий",
+    "desc": [
+      "Когда при броске к20 на атаку, проверку характеристики или спасбросок выпадает 1, вы можете перебросить кость и обязаны использовать новый результат."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/lucky"
+  },
+  {
+    "index": "brave",
+    "races": [
+      {
+        "index": "halfling",
+        "name": "Halfling",
+        "url": "/api/2014/races/halfling"
+      }
+    ],
+    "subraces": [],
+    "name": "Храбрость",
+    "desc": [
+      "У вас преимущество на спасброски против испуга."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/brave"
+  },
+  {
+    "index": "halfling-nimbleness",
+    "races": [
+      {
+        "index": "halfling",
+        "name": "Halfling",
+        "url": "/api/2014/races/halfling"
+      }
+    ],
+    "subraces": [],
+    "name": "Ловкость полурослика",
+    "desc": [
+      "Вы можете перемещаться через пространство, занимаемое существом более крупного размера, чем вы."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/halfling-nimbleness"
+  },
+  {
+    "index": "naturally-stealthy",
+    "races": [],
+    "subraces": [
+      {
+        "index": "lightfoot-halfling",
+        "name": "Lightfoot Halfling",
+        "url": "/api/2014/subraces/lightfoot-halfling"
+      }
+    ],
+    "name": "Природная скрытность",
+    "desc": [
+      "Вы можете попытаться спрятаться, даже если вас скрывает лишь существо как минимум на один размер крупнее вас."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/naturally-stealthy"
+  },
+  {
+    "index": "draconic-ancestry",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "proficiencies": [],
+    "trait_specific": {
+      "subtrait_options": {
+        "choose": 1,
+        "from": {
+          "option_set_type": "options_array",
+          "options": [
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-black",
+                "name": "Draconic Ancestry (Black)",
+                "url": "/api/2014/traits/draconic-ancestry-black"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-blue",
+                "name": "Draconic Ancestry (Blue)",
+                "url": "/api/2014/traits/draconic-ancestry-blue"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-brass",
+                "name": "Draconic Ancestry (Brass)",
+                "url": "/api/2014/traits/draconic-ancestry-brass"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-bronze",
+                "name": "Draconic Ancestry (Bronze)",
+                "url": "/api/2014/traits/draconic-ancestry-bronze"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-copper",
+                "name": "Draconic Ancestry (Copper)",
+                "url": "/api/2014/traits/draconic-ancestry-copper"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-gold",
+                "name": "Draconic Ancestry (Gold)",
+                "url": "/api/2014/traits/draconic-ancestry-gold"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-green",
+                "name": "Draconic Ancestry (Green)",
+                "url": "/api/2014/traits/draconic-ancestry-green"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-red",
+                "name": "Draconic Ancestry (Red)",
+                "url": "/api/2014/traits/draconic-ancestry-red"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-silver",
+                "name": "Draconic Ancestry (Silver)",
+                "url": "/api/2014/traits/draconic-ancestry-silver"
+              }
+            },
+            {
+              "option_type": "reference",
+              "item": {
+                "index": "draconic-ancestry-white",
+                "name": "Draconic Ancestry (White)",
+                "url": "/api/2014/traits/draconic-ancestry-white"
+              }
+            }
+          ]
+        },
+        "type": "trait"
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry"
+  },
+  {
+    "index": "draconic-ancestry-black",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Чёрный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "acid",
+        "name": "Acid",
+        "url": "/api/2014/damage-types/acid"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 30,
+          "type": "line"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "acid",
+              "name": "Acid",
+              "url": "/api/2014/damage-types/acid"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-black"
+  },
+  {
+    "index": "draconic-ancestry-blue",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Синий)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "lightning",
+        "name": "Lightning",
+        "url": "/api/2014/damage-types/lightning"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 30,
+          "type": "line"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "lightning",
+              "name": "Lightning",
+              "url": "/api/2014/damage-types/lightning"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-blue"
+  },
+  {
+    "index": "draconic-ancestry-brass",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Латунный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "fire",
+        "name": "Fire",
+        "url": "/api/2014/damage-types/fire"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 30,
+          "type": "line"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "fire",
+              "name": "Fire",
+              "url": "/api/2014/damage-types/fire"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-brass"
+  },
+  {
+    "index": "draconic-ancestry-bronze",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Бронзовый)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "lightning",
+        "name": "Lightning",
+        "url": "/api/2014/damage-types/lightning"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 30,
+          "type": "line"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "lightning",
+              "name": "Lightning",
+              "url": "/api/2014/damage-types/lightning"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-bronze"
+  },
+  {
+    "index": "draconic-ancestry-copper",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Медный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "acid",
+        "name": "Acid",
+        "url": "/api/2014/damage-types/acid"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 30,
+          "type": "line"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "acid",
+              "name": "Acid",
+              "url": "/api/2014/damage-types/acid"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-copper"
+  },
+  {
+    "index": "draconic-ancestry-gold",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Золотой)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "fire",
+        "name": "Fire",
+        "url": "/api/2014/damage-types/fire"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 15,
+          "type": "cone"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "fire",
+              "name": "Fire",
+              "url": "/api/2014/damage-types/fire"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-gold"
+  },
+  {
+    "index": "draconic-ancestry-green",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Зелёный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "poison",
+        "name": "Poison",
+        "url": "/api/2014/damage-types/poison"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 15,
+          "type": "cone"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "con",
+            "name": "CON",
+            "url": "/api/2014/ability-scores/con"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "poison",
+              "name": "Poison",
+              "url": "/api/2014/damage-types/poison"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-green"
+  },
+  {
+    "index": "draconic-ancestry-red",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Красный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "fire",
+        "name": "Fire",
+        "url": "/api/2014/damage-types/fire"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 15,
+          "type": "cone"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "dex",
+            "name": "DEX",
+            "url": "/api/2014/ability-scores/dex"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "fire",
+              "name": "Fire",
+              "url": "/api/2014/damage-types/fire"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-red"
+  },
+  {
+    "index": "draconic-ancestry-silver",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Серебряный)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "cold",
+        "name": "Cold",
+        "url": "/api/2014/damage-types/cold"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 15,
+          "type": "cone"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "con",
+            "name": "CON",
+            "url": "/api/2014/ability-scores/con"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "cold",
+              "name": "Cold",
+              "url": "/api/2014/damage-types/cold"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-silver"
+  },
+  {
+    "index": "draconic-ancestry-white",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Драконье происхождение (Белый)",
+    "desc": [
+      "У вас есть драконье происхождение. Выберите один тип дракона из таблицы Драконьего происхождения. Ваше дыхательное оружие и сопротивление урону определяются типом дракона, как показано в таблице."
+    ],
+    "parent": {
+      "index": "draconic-ancestry",
+      "name": "Draconic Ancestry",
+      "url": "/api/2014/traits/draconic-ancestry"
+    },
+    "proficiencies": [],
+    "trait_specific": {
+      "damage_type": {
+        "index": "cold",
+        "name": "Cold",
+        "url": "/api/2014/damage-types/cold"
+      },
+      "breath_weapon": {
+        "name": "Breath Weapon",
+        "desc": "You can use your action to exhale destructive energy. Your draconic ancestry determines the size, shape, and damage type of the exhalation. When you use your breath weapon, each creature in the area of the exhalation must make a saving throw, the type of which is determined by your draconic ancestry. The DC for this saving throw equals 8 + your Constitution modifier + your proficiency bonus. A creature takes 2d6 damage on a failed save, and half as much damage on a successful one. The damage increases to 3d6 at 6th level, 4d6 at 11th level, and 5d6 at 16th level. After you use your breath weapon, you can't use it again until you complete a short or long rest.",
+        "area_of_effect": {
+          "size": 15,
+          "type": "cone"
+        },
+        "usage": {
+          "type": "per rest",
+          "times": 1
+        },
+        "dc": {
+          "dc_type": {
+            "index": "con",
+            "name": "CON",
+            "url": "/api/2014/ability-scores/con"
+          },
+          "success_type": "half"
+        },
+        "damage": [
+          {
+            "damage_type": {
+              "index": "cold",
+              "name": "Cold",
+              "url": "/api/2014/damage-types/cold"
+            },
+            "damage_at_character_level": {
+              "1": "2d6",
+              "6": "3d6",
+              "11": "4d6",
+              "16": "5d6"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/draconic-ancestry-white"
+  },
+  {
+    "index": "breath-weapon",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Дыхательное оружие",
+    "desc": [
+      "Вы можете использовать своё действие, чтобы выдохнуть разрушительную энергию. Ваше драконье происхождение определяет размер, форму и тип урона выдоха.",
+      "Когда вы используете своё дыхательное оружие, каждое существо в области действия выдоха должно совершить спасбросок, тип которого определяется вашим драконьим происхождением. Сложность этого спасброска равна 8 + модификатор Телосложения + бонус мастерства. При провале спасброска существо получает урон 2к6, при успехе — половину этого урона. Урон увеличивается до 3к6 на 6 уровне, 4к6 на 11 уровне и 5к6 на 16 уровне.",
+      "После использования дыхательного оружия вы не можете использовать его снова, пока не завершите короткий или продолжительный отдых."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/breath-weapon"
+  },
+  {
+    "index": "damage-resistance",
+    "races": [
+      {
+        "index": "dragonborn",
+        "name": "Dragonborn",
+        "url": "/api/2014/races/dragonborn"
+      }
+    ],
+    "subraces": [],
+    "name": "Сопротивление урону",
+    "desc": [
+      "У вас сопротивление типу урона, связанному с вашим драконьим происхождением."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/damage-resistance"
+  },
+  {
+    "index": "gnome-cunning",
+    "races": [
+      {
+        "index": "gnome",
+        "name": "Gnome",
+        "url": "/api/2014/races/gnome"
+      }
+    ],
+    "subraces": [],
+    "name": "Гномья хитрость",
+    "desc": [
+      "У вас преимущество на все спасброски Интеллекта, Мудрости и Харизмы против магии."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/gnome-cunning"
+  },
+  {
+    "index": "artificers-lore",
+    "races": [],
+    "subraces": [
+      {
+        "index": "rock-gnome",
+        "name": "Rock Gnome",
+        "url": "/api/2014/subraces/rock-gnome"
+      }
+    ],
+    "name": "Знания механика",
+    "desc": [
+      "Когда вы совершаете проверку Интеллекта (История), связанную с магическими предметами, алхимическими объектами или технологическими устройствами, вы можете прибавить удвоенный бонус мастерства вместо любого бонуса мастерства, который вы обычно применяете."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/artificers-lore"
+  },
+  {
+    "index": "tinker",
+    "races": [],
+    "subraces": [
+      {
+        "index": "rock-gnome",
+        "name": "Rock Gnome",
+        "url": "/api/2014/subraces/rock-gnome"
+      }
+    ],
+    "name": "Мастер на все руки",
+    "desc": [
+      "Вы владеете инструментами ремесленника (инструменты механика). Используя эти инструменты, вы можете потратить 1 час и материалы стоимостью 10 зм, чтобы создать крошечное заводное устройство (КД 5, 1 хит). Устройство перестаёт функционировать через 24 часа (если вы не потратите 1 час на его ремонт, чтобы оно продолжало работать), или когда вы используете действие, чтобы разобрать его; в этом случае вы можете вернуть использованные для его создания материалы. У вас может быть одновременно активно до трёх таких устройств.",
+      "Когда вы создаёте устройство, выберите один из следующих вариантов:",
+      "Заводная игрушка: эта игрушка представляет собой заводное животное, чудовище или человека, например лягушку, мышь, птицу, дракона или солдата. Находясь на земле, игрушка перемещается на 5 футов по земле в случайном направлении в каждый ваш ход. Она издаёт звуки, соответствующие существу, которое изображает.",
+      "Огниво: устройство производит миниатюрное пламя, которым можно зажечь свечу, факел или костёр. Использование устройства требует действия.",
+      "Музыкальная шкатулка: при открытии эта музыкальная шкатулка проигрывает одну мелодию на умеренной громкости. Шкатулка перестаёт играть, когда мелодия заканчивается или когда шкатулку закрывают."
+    ],
+    "proficiencies": [
+      {
+        "index": "tinkers-tools",
+        "name": "Tinker's Tools",
+        "url": "/api/2014/proficiencies/tinkers-tools"
+      }
+    ],
+    "url": "/api/2014/traits/tinker"
+  },
+  {
+    "index": "skill-versatility",
+    "races": [
+      {
+        "index": "half-elf",
+        "name": "Half-Elf",
+        "url": "/api/2014/races/half-elf"
+      }
+    ],
+    "subraces": [],
+    "name": "Многогранность навыков",
+    "desc": [
+      "Вы получаете владение двумя навыками по вашему выбору."
+    ],
+    "proficiencies": [],
+    "proficiency_choices": {
+      "choose": 2,
+      "type": "proficiencies",
+      "from": {
+        "option_set_type": "options_array",
+        "options": [
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-acrobatics",
+              "name": "Skill: Acrobatics",
+              "url": "/api/2014/proficiencies/skill-acrobatics"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-animal-handling",
+              "name": "Skill: Animal Handling",
+              "url": "/api/2014/proficiencies/skill-animal-handling"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-arcana",
+              "name": "Skill: Arcana",
+              "url": "/api/2014/proficiencies/skill-arcana"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-athletics",
+              "name": "Skill: Athletics",
+              "url": "/api/2014/proficiencies/skill-athletics"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-deception",
+              "name": "Skill: Deception",
+              "url": "/api/2014/proficiencies/skill-deception"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-history",
+              "name": "Skill: History",
+              "url": "/api/2014/proficiencies/skill-history"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-insight",
+              "name": "Skill: Insight",
+              "url": "/api/2014/proficiencies/skill-insight"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-intimidation",
+              "name": "Skill: Intimidation",
+              "url": "/api/2014/proficiencies/skill-intimidation"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-investigation",
+              "name": "Skill: Investigation",
+              "url": "/api/2014/proficiencies/skill-investigation"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-medicine",
+              "name": "Skill: Medicine",
+              "url": "/api/2014/proficiencies/skill-medicine"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-nature",
+              "name": "Skill: Nature",
+              "url": "/api/2014/proficiencies/skill-nature"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-perception",
+              "name": "Skill: Perception",
+              "url": "/api/2014/proficiencies/skill-perception"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-performance",
+              "name": "Skill: Performance",
+              "url": "/api/2014/proficiencies/skill-performance"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-persuasion",
+              "name": "Skill: Persuasion",
+              "url": "/api/2014/proficiencies/skill-persuasion"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-religion",
+              "name": "Skill: Religion",
+              "url": "/api/2014/proficiencies/skill-religion"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-sleight-of-hand",
+              "name": "Skill: Sleight of Hand",
+              "url": "/api/2014/proficiencies/skill-sleight-of-hand"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-stealth",
+              "name": "Skill: Stealth",
+              "url": "/api/2014/proficiencies/skill-stealth"
+            }
+          },
+          {
+            "option_type": "reference",
+            "item": {
+              "index": "skill-survival",
+              "name": "Skill: Survival",
+              "url": "/api/2014/proficiencies/skill-survival"
+            }
+          }
+        ]
+      }
+    },
+    "url": "/api/2014/traits/skill-versatility"
+  },
+  {
+    "index": "menacing",
+    "races": [
+      {
+        "index": "half-orc",
+        "name": "Half-Orc",
+        "url": "/api/2014/races/half-orc"
+      }
+    ],
+    "subraces": [],
+    "name": "Угрожающий вид",
+    "desc": [
+      "Вы получаете владение навыком Запугивание."
+    ],
+    "proficiencies": [
+      {
+        "index": "skill-intimidation",
+        "name": "Skill: Intimidation",
+        "url": "/api/2014/proficiencies/skill-intimidation"
+      }
+    ],
+    "url": "/api/2014/traits/menacing"
+  },
+  {
+    "index": "relentless-endurance",
+    "races": [
+      {
+        "index": "half-orc",
+        "name": "Half-Orc",
+        "url": "/api/2014/races/half-orc"
+      }
+    ],
+    "subraces": [],
+    "name": "Неустанная выносливость",
+    "desc": [
+      "Когда ваши хиты опускаются до 0, но вы не убиты на месте, вы можете остаться на 1 хите вместо этого. Вы не можете использовать эту способность снова, пока не завершите продолжительный отдых."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/relentless-endurance"
+  },
+  {
+    "index": "savage-attacks",
+    "races": [
+      {
+        "index": "half-orc",
+        "name": "Half-Orc",
+        "url": "/api/2014/races/half-orc"
+      }
+    ],
+    "subraces": [],
+    "name": "Свирепые атаки",
+    "desc": [
+      "Когда вы наносите критический удар рукопашной атакой оружием, вы можете бросить одну из костей урона оружия ещё раз и добавить её к дополнительному урону критического удара."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/savage-attacks"
+  },
+  {
+    "index": "hellish-resistance",
+    "races": [
+      {
+        "index": "tiefling",
+        "name": "Tiefling",
+        "url": "/api/2014/races/tiefling"
+      }
+    ],
+    "subraces": [],
+    "name": "Адское сопротивление",
+    "desc": [
+      "У вас сопротивление урону огнём."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/hellish-resistance"
+  },
+  {
+    "index": "infernal-legacy",
+    "races": [
+      {
+        "index": "tiefling",
+        "name": "Tiefling",
+        "url": "/api/2014/races/tiefling"
+      }
+    ],
+    "subraces": [],
+    "name": "Инфернальное наследие",
+    "desc": [
+      "Вы знаете заговор чудотворство. Достигнув 3 уровня, вы можете сотворить заклинание адское наказание как заклинание 2 уровня один раз с помощью этой особенности и восстанавливаете возможность делать это после завершения продолжительного отдыха. Достигнув 5 уровня, вы можете сотворить заклинание тьма один раз с помощью этой особенности и восстанавливаете возможность делать это после завершения продолжительного отдыха. Харизма является вашей базовой характеристикой для этих заклинаний."
+    ],
+    "proficiencies": [],
+    "url": "/api/2014/traits/infernal-legacy"
+  }
+]
