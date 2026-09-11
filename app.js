@@ -11,28 +11,28 @@
 // весь корпус (тысячи записей) нереально сделать надёжно за один присест,
 // зато классы/состояния/навыки/характеристики и т.п. — с переводом.
 const CATEGORIES = [
-  { slug: "classes", label: "Классы", file: "classes.json" },
-  { slug: "spells", label: "Заклинания", file: "spells.json" },
-  { slug: "monsters", label: "Монстры", file: "monsters.json" },
-  { slug: "conditions", label: "Состояния", file: "conditions.json", ruFile: "conditions.ru.json" },
-  { slug: "feats", label: "Черты", file: "feats.json" },
-  { slug: "equipment", label: "Снаряжение", file: "equipment.json" },
-  { slug: "magic-items", label: "Магические предметы", file: "magic-items.json" },
-  { slug: "races", label: "Расы", file: "races.json" },
-  { slug: "subraces", label: "Подрасы", file: "subraces.json", ruFile: "subraces.ru.json" },
-  { slug: "backgrounds", label: "Предыстории", file: "backgrounds.json" },
-  { slug: "skills", label: "Навыки", file: "skills.json", ruFile: "skills.ru.json" },
-  { slug: "ability-scores", label: "Характеристики", file: "ability-scores.json", ruFile: "ability-scores.ru.json" },
-  { slug: "alignments", label: "Мировоззрения", file: "alignments.json", ruFile: "alignments.ru.json" },
-  { slug: "damage-types", label: "Типы урона", file: "damage-types.json", ruFile: "damage-types.ru.json" },
-  { slug: "languages", label: "Языки", file: "languages.json", ruFile: "languages.ru.json" },
-  { slug: "magic-schools", label: "Школы магии", file: "magic-schools.json", ruFile: "magic-schools.ru.json" },
-  { slug: "weapon-properties", label: "Свойства оружия", file: "weapon-properties.json", ruFile: "weapon-properties.ru.json" },
-  { slug: "rule-sections", label: "Разделы правил", file: "rule-sections.json" },
-  { slug: "rules", label: "Главы правил", file: "rules.json" },
-  { slug: "subclasses", label: "Архетипы", file: "subclasses.json" },
-  { slug: "traits", label: "Особенности рас", file: "traits.json" },
-  { slug: "features", label: "Классовые умения", file: "features.json" },
+  { slug: "classes", label: "Классы", file: "classes.json", ruFile: "classes.ru.json", color: "#6a9bd8" },
+  { slug: "spells", label: "Заклинания", file: "spells.json", ruFile: "spells.ru.json", color: "#9b7fd4" },
+  { slug: "monsters", label: "Монстры", file: "monsters.json", ruFile: "monsters.ru.json", color: "#d16b66" },
+  { slug: "conditions", label: "Состояния", file: "conditions.json", ruFile: "conditions.ru.json", color: "#d1953f" },
+  { slug: "feats", label: "Черты", file: "feats.json", ruFile: "feats.ru.json", color: "#c97ba0" },
+  { slug: "equipment", label: "Снаряжение", file: "equipment.json", ruFile: "equipment.ru.json", color: "#a98a63" },
+  { slug: "magic-items", label: "Магические предметы", file: "magic-items.json", ruFile: "magic-items.ru.json", color: "#4fb8a8" },
+  { slug: "races", label: "Расы", file: "races.json", ruFile: "races.ru.json", color: "#5fae72" },
+  { slug: "subraces", label: "Подрасы", file: "subraces.json", ruFile: "subraces.ru.json", color: "#7ec48f" },
+  { slug: "backgrounds", label: "Предыстории", file: "backgrounds.json", ruFile: "backgrounds.ru.json", color: "#bfa15a" },
+  { slug: "skills", label: "Навыки", file: "skills.json", ruFile: "skills.ru.json", color: "#5bb0c2" },
+  { slug: "ability-scores", label: "Характеристики", file: "ability-scores.json", ruFile: "ability-scores.ru.json", color: "#9a94ab" },
+  { slug: "alignments", label: "Мировоззрения", file: "alignments.json", ruFile: "alignments.ru.json", color: "#8f8fc0" },
+  { slug: "damage-types", label: "Типы урона", file: "damage-types.json", ruFile: "damage-types.ru.json", color: "#c9603f" },
+  { slug: "languages", label: "Языки", file: "languages.json", ruFile: "languages.ru.json", color: "#7fbf9e" },
+  { slug: "magic-schools", label: "Школы магии", file: "magic-schools.json", ruFile: "magic-schools.ru.json", color: "#a874c9" },
+  { slug: "weapon-properties", label: "Свойства оружия", file: "weapon-properties.json", ruFile: "weapon-properties.ru.json", color: "#8c98a4" },
+  { slug: "rule-sections", label: "Разделы правил", file: "rule-sections.json", ruFile: "rule-sections.ru.json", color: "#c9a96e" },
+  { slug: "rules", label: "Главы правил", file: "rules.json", ruFile: "rules.ru.json", color: "#c9a96e" },
+  { slug: "subclasses", label: "Архетипы", file: "subclasses.json", ruFile: "subclasses.ru.json", color: "#7fb0e0" },
+  { slug: "traits", label: "Особенности рас", file: "traits.json", ruFile: "traits.ru.json", color: "#6bbf82" },
+  { slug: "features", label: "Классовые умения", file: "features.json", ruFile: "features.ru.json", color: "#6f9fc0" },
 ];
 
 // Небольшой ручной словарь для поиска по-русски там, где в датасете нет
@@ -68,6 +68,142 @@ let DB = []; // {category, index, name, nameEn, entry, search}
 let loaded = false;
 let activeFilter = null;
 let lastQuery = "";
+
+// index "category:index" -> русское имя, собирается при загрузке из всех
+// файлов *.ru.json — используется, чтобы переводить и перекрёстные ссылки
+// (школа заклинания, класс, тип урона и т.п.), не только сам объект.
+const RU_NAME_INDEX = new Map();
+
+function hexToRgba(hex, alpha) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function refCategoryFromUrl(url) {
+  const m = /\/api\/2014\/([^/]+)\//.exec(url || "");
+  return m ? m[1] : null;
+}
+
+// ---------- перевод коротких служебных полей (дистанция, длительность,
+// скорость, чувства, мировоззрение) — не полные предложения, а фиксированные
+// шаблоны/словари D&D-статблоков, поэтому переводим их отдельно от общего
+// текста описаний (там переводит уже сам датасет .ru.json).
+
+function trUnits(s) {
+  return String(s)
+    .replace(/\bfeet\b/gi, "футов")
+    .replace(/\bfoot\b/gi, "фут")
+    .replace(/\bft\.?/gi, "фт.")
+    .replace(/\bmiles\b/gi, "миль")
+    .replace(/\bmile\b/gi, "миля");
+}
+
+const TIME_WORD = { minute: "минута", minutes: "минут", hour: "час", hours: "часов", round: "раунд", rounds: "раунда", day: "день", days: "дней" };
+
+function trDuration(s) {
+  if (!s) return s;
+  let t = s.trim();
+  if (/^instantaneous$/i.test(t)) return "Мгновенная";
+  if (/^until dispelled$/i.test(t)) return "До снятия";
+  if (/^until dispelled or triggered$/i.test(t)) return "До снятия или срабатывания";
+  if (/^special$/i.test(t)) return "Особая";
+  const m = /^(concentration,\s*)?up to (\d+)\s*(minute|minutes|hour|hours|round|rounds|day|days)$/i.exec(t);
+  if (m) return `${m[1] ? "Концентрация, " : ""}до ${m[2]} ${TIME_WORD[m[3].toLowerCase()]}`;
+  const m2 = /^(\d+)\s*(minute|minutes|hour|hours|round|rounds|day|days)$/i.exec(t);
+  if (m2) return `${m2[1]} ${TIME_WORD[m2[2].toLowerCase()]}`;
+  return s;
+}
+
+function trCastingTime(s) {
+  if (!s) return s;
+  const t = s.trim();
+  if (/^1 action$/i.test(t)) return "1 действие";
+  if (/^1 bonus action$/i.test(t)) return "1 бонусное действие";
+  const m = /^(\d+)\s*(minute|minutes|hour|hours)$/i.exec(t);
+  if (m) return `${m[1]} ${TIME_WORD[m[2].toLowerCase()]}`;
+  const m2 = /^1 reaction(.*)$/i.exec(t);
+  if (m2) return `1 реакция${m2[1]}`;
+  return s;
+}
+
+function trRange(s) {
+  if (!s) return s;
+  const t = s.trim();
+  if (/^self$/i.test(t)) return "На себя";
+  if (/^touch$/i.test(t)) return "Касание";
+  if (/^sight$/i.test(t)) return "В пределах видимости";
+  if (/^unlimited$/i.test(t)) return "Неограниченная";
+  if (/^special$/i.test(t)) return "Особая";
+  const m = /^self \((.+)\)$/i.exec(t);
+  if (m) return `На себя (${trUnits(m[1])})`;
+  if (/^\d+\s*(feet|foot|ft\.?)$/i.test(t)) return trUnits(t);
+  return s;
+}
+
+const ALIGN_PHRASES = [
+  [/\blawful good\b/gi, "законно-добрый"], [/\bneutral good\b/gi, "нейтрально-добрый"], [/\bchaotic good\b/gi, "хаотично-добрый"],
+  [/\blawful neutral\b/gi, "законно-нейтральный"], [/\bchaotic neutral\b/gi, "хаотично-нейтральный"],
+  [/\blawful evil\b/gi, "законно-злой"], [/\bneutral evil\b/gi, "нейтрально-злой"], [/\bchaotic evil\b/gi, "хаотично-злой"],
+  [/\bunaligned\b/gi, "вне мировоззрения"], [/\bany alignment\b/gi, "любое мировоззрение"],
+  [/\bany non-good alignment\b/gi, "любое недоброе мировоззрение"], [/\bany evil alignment\b/gi, "любое злое мировоззрение"],
+  [/\bany chaotic alignment\b/gi, "любое хаотичное мировоззрение"], [/\bany lawful alignment\b/gi, "любое законопослушное мировоззрение"],
+  [/\btypically\b/gi, "обычно"], [/\busually\b/gi, "как правило"], [/\bneutral\b/gi, "нейтральный"],
+  [/\blawful\b/gi, "законопослушный"], [/\bchaotic\b/gi, "хаотичный"], [/\bgood\b/gi, "добрый"], [/\bevil\b/gi, "злой"],
+  [/\bor\b/gi, "или"], [/\band\b/gi, "и"],
+];
+function trAlignment(s) {
+  if (!s) return s;
+  let t = s;
+  for (const [re, ru] of ALIGN_PHRASES) t = t.replace(re, ru);
+  return t;
+}
+
+const SPEED_KEYS = { walk: "ходьба", fly: "полёт", swim: "плавание", climb: "лазание", burrow: "рытьё", hover: "зависание" };
+function trSpeed(speedObj) {
+  if (!speedObj) return "";
+  return Object.entries(speedObj)
+    .map(([k, v]) => `${SPEED_KEYS[k] || k} ${trUnits(v)}`)
+    .join(", ");
+}
+
+const SENSE_KEYS = {
+  darkvision: "тёмное зрение", blindsight: "слепое зрение", tremorsense: "чувство вибрации",
+  truesight: "истинное зрение", passive_perception: "пассивное восприятие", telepathy: "телепатия",
+};
+function trSenses(sensesObj) {
+  if (!sensesObj) return "";
+  return Object.entries(sensesObj)
+    .map(([k, v]) => `${SENSE_KEYS[k] || k} ${trUnits(String(v))}`)
+    .join(", ");
+}
+
+const DAMAGE_TYPE_INDICES = ["acid", "bludgeoning", "cold", "fire", "force", "lightning", "necrotic", "piercing", "poison", "psychic", "radiant", "slashing", "thunder"];
+function trDamagePhrase(s) {
+  let t = String(s);
+  for (const idx of DAMAGE_TYPE_INDICES) {
+    const ru = RU_NAME_INDEX.get(`damage-types:${idx}`);
+    if (ru) t = t.replace(new RegExp(`\\b${idx}\\b`, "gi"), ru.toLowerCase());
+  }
+  return t
+    .replace(/\bnonmagical\b/gi, "немагическим")
+    .replace(/\bweapons\b/gi, "оружием")
+    .replace(/\battacks\b/gi, "атаками")
+    .replace(/\bfrom\b/gi, "от")
+    .replace(/\bthat aren't silvered\b/gi, "не посеребрённым")
+    .replace(/\band\b/gi, "и");
+}
+
+function trRefName(ref) {
+  if (!ref) return "";
+  if (Array.isArray(ref)) return ref.map(trRefName).filter(Boolean).join(", ");
+  const cat = refCategoryFromUrl(ref.url);
+  const key = cat && ref.index ? `${cat}:${ref.index}` : null;
+  const ru = key ? RU_NAME_INDEX.get(key) : null;
+  return ru || ref.name || ref.index || "";
+}
 
 const searchEl = document.getElementById("search");
 const clearBtn = document.getElementById("clear-btn");
@@ -123,10 +259,41 @@ async function loadAll() {
         const ru = ruByIndex?.get(entry.index);
         const alias = aliasMap?.[entry.name];
         const nameRu = ru?.name || alias || "";
+        if (ru?.name) RU_NAME_INDEX.set(`${cat.slug}:${entry.index}`, ru.name);
+
+        // Полный текст для поиска по содержанию, не только по названию:
+        // все абзацы описания (а не первый/первые 200 символов), плюс
+        // вложенные описательные поля (особенности монстров, действия,
+        // "на более высоких уровнях", подразделы правил и т.п.) — и то же
+        // самое из русского перевода, если он уже загружен.
         const searchParts = [entry.name, entry.index, nameRu];
-        if (Array.isArray(entry.desc)) searchParts.push(...entry.desc.slice(0, 1));
-        else if (typeof entry.desc === "string") searchParts.push(entry.desc.slice(0, 200));
+        const pushDesc = (d) => {
+          if (Array.isArray(d)) searchParts.push(...d);
+          else if (typeof d === "string") searchParts.push(d);
+        };
+        pushDesc(entry.desc);
+        pushDesc(entry.higher_level);
         if (entry.type) searchParts.push(entry.type);
+        if (Array.isArray(entry.special_abilities)) {
+          for (const sa of entry.special_abilities) searchParts.push(sa.name, sa.desc);
+        }
+        if (Array.isArray(entry.actions)) {
+          for (const a of entry.actions) searchParts.push(a.name, a.desc);
+        }
+        if (Array.isArray(entry.legendary_actions)) {
+          for (const a of entry.legendary_actions) searchParts.push(a.name, a.desc);
+        }
+        if (Array.isArray(entry.subsections)) searchParts.push(...entry.subsections.map((s) => s.name));
+        if (Array.isArray(entry.proficiency_choices)) searchParts.push(...entry.proficiency_choices.map((pc) => pc.desc));
+        if (ru) {
+          pushDesc(ru.desc);
+          pushDesc(ru.higher_level);
+          if (Array.isArray(ru.special_abilities)) for (const sa of ru.special_abilities) searchParts.push(sa.name, sa.desc);
+          if (Array.isArray(ru.actions)) for (const a of ru.actions) searchParts.push(a.name, a.desc);
+          if (Array.isArray(ru.legendary_actions)) for (const a of ru.legendary_actions) searchParts.push(a.name, a.desc);
+          if (Array.isArray(ru.subsections)) searchParts.push(...ru.subsections.map((s) => s.name));
+        }
+
         rows.push({
           category: cat.slug,
           index: entry.index,
@@ -248,6 +415,12 @@ function renderResultsList(rows, q) {
       nameWrap.appendChild(en);
     }
     const badge = el("span", "result-badge", CAT_BY_SLUG[row.category]?.label || row.category);
+    const color = CAT_BY_SLUG[row.category]?.color;
+    if (color) {
+      badge.style.color = color;
+      badge.style.borderColor = color;
+      badge.style.background = hexToRgba(color, 0.14);
+    }
     item.append(nameWrap, badge);
 
     const wrap = el("div");
@@ -272,10 +445,10 @@ function renderBrowseHint() {
 
   const hint = el("div", "hint");
   hint.innerHTML =
-    "Начни вводить название — например <b>варвар</b>, <b>fireball</b>, <b>обыватель</b> или <b>ослеплён</b>. " +
-    "Классы, состояния, навыки, характеристики и похожие категории — с русским переводом; заклинания, монстры, " +
-    "снаряжение и магические предметы — пока только на английском (перевод всего корпуса на тысячи записей не " +
-    "делали, чтобы не наврать в цифрах). Либо выбери категорию ниже, чтобы просто полистать.";
+    "Начни вводить что угодно — название (<b>варвар</b>, <b>fireball</b>) или кусок содержания " +
+    "(<b>укрытие</b>, <b>под водой</b>, <b>преимущество</b>, эффект заклинания и т.п.) — поиск ищет " +
+    "не только по названию, но и по всему тексту описаний. Цветной значок справа сразу показывает " +
+    "категорию — заклинание, монстр, состояние и т.д. Либо выбери категорию ниже, чтобы просто полистать.";
   resultsEl.appendChild(hint);
 
   const counts = {};
@@ -345,18 +518,21 @@ function openDetail(rowData) {
   const title = el("div", "d-title", rowData.nameRu || rowData.name);
   if (rowData.nameRu) title.appendChild(el("span", "en", rowData.name));
   detailEl.appendChild(title);
-  detailEl.appendChild(el("div", "d-sub", CAT_BY_SLUG[rowData.category]?.label || rowData.category));
+  const catInfo = CAT_BY_SLUG[rowData.category];
+  const sub = el("div", "d-sub", catInfo?.label || rowData.category);
+  if (catInfo?.color) sub.style.color = catInfo.color;
+  detailEl.appendChild(sub);
 
   const body = el("div");
   switch (rowData.category) {
     case "classes":
-      renderClass(body, rowData.entry);
+      renderClass(body, rowData.entry, rowData.entryRu);
       break;
     case "spells":
-      renderSpell(body, rowData.entry);
+      renderSpell(body, rowData.entry, rowData.entryRu);
       break;
     case "monsters":
-      renderMonster(body, rowData.entry);
+      renderMonster(body, rowData.entry, rowData.entryRu);
       break;
     default:
       renderGeneric(body, rowData.entry, rowData.entryRu);
@@ -364,86 +540,91 @@ function openDetail(rowData) {
   detailEl.appendChild(body);
 }
 
-function renderClass(box, e) {
+function renderClass(box, e, ru) {
   [
     row("Кость хитов", `1к${e.hit_die}`),
-    row("Спасброски", refName(e.saving_throws)),
-    row("Владения", refName(e.proficiencies)),
-    row("Архетипы", refName(e.subclasses)),
+    row("Спасброски", trRefName(e.saving_throws)),
+    row("Владения", trRefName(e.proficiencies)),
+    row("Архетипы", trRefName(e.subclasses)),
   ].forEach((r) => r && box.appendChild(r));
 
-  if (e.proficiency_choices?.length) {
+  const pc = ru?.proficiency_choices || e.proficiency_choices;
+  if (pc?.length) {
     const d = el("div", "d-desc");
-    d.textContent = e.proficiency_choices.map((pc) => pc.desc).filter(Boolean).join("\n");
+    d.textContent = pc.map((x) => x.desc).filter(Boolean).join("\n");
     box.appendChild(d);
   }
 }
 
-function renderSpell(box, e) {
+function renderSpell(box, e, ru) {
   [
     row("Уровень", e.level === 0 ? "заговор" : e.level),
-    row("Школа", refName(e.school)),
-    row("Время накладывания", e.casting_time),
-    row("Дистанция", e.range),
-    row("Компоненты", `${(e.components || []).join(", ")}${e.material ? ` (${e.material})` : ""}`),
-    row("Длительность", `${e.duration || ""}${e.concentration ? " (концентрация)" : ""}`),
+    row("Школа", trRefName(e.school)),
+    row("Время накладывания", trCastingTime(e.casting_time)),
+    row("Дистанция", trRange(e.range)),
+    row("Компоненты", `${(e.components || []).join(", ")}${e.material ? ` (${ru?.material || e.material})` : ""}`),
+    row("Длительность", `${trDuration(e.duration) || ""}${e.concentration ? " (концентрация)" : ""}`),
     row("Ритуал", e.ritual ? "да" : "нет"),
-    row("Классы", refName(e.classes)),
+    row("Классы", trRefName(e.classes)),
   ].forEach((r) => r && box.appendChild(r));
 
-  const desc = el("div", "d-desc", joinDesc(e.desc));
+  const desc = el("div", "d-desc", joinDesc(ru?.desc ?? e.desc));
   box.appendChild(desc);
 
-  if (e.higher_level?.length) {
+  const higherLevel = ru?.higher_level ?? e.higher_level;
+  if (higherLevel?.length) {
     box.appendChild(el("div", "d-block-title", "На более высоких уровнях"));
-    box.appendChild(el("div", "d-desc", joinDesc(e.higher_level)));
+    box.appendChild(el("div", "d-desc", joinDesc(higherLevel)));
   }
   if (e.damage?.damage_at_slot_level) {
     const txt = Object.entries(e.damage.damage_at_slot_level).map(([lvl, dmg]) => `${lvl} ур. — ${dmg}`).join(", ");
-    box.appendChild(row("Урон по уровню ячейки", `${txt} (${refName(e.damage.damage_type)})`));
+    box.appendChild(row("Урон по уровню ячейки", `${txt} (${trRefName(e.damage.damage_type)})`));
   }
-  if (e.dc) box.appendChild(row("Спасбросок", `${refName(e.dc.dc_type)}, при успехе: ${e.dc.dc_success}`));
+  if (e.dc) box.appendChild(row("Спасбросок", `${trRefName(e.dc.dc_type)}, при успехе: ${e.dc.dc_success}`));
 }
 
-function renderMonster(box, e) {
+function renderMonster(box, e, ru) {
   const ac = Array.isArray(e.armor_class) ? e.armor_class.map((a) => `${a.value}${a.type ? ` (${a.type})` : ""}`).join(", ") : e.armor_class;
   [
     row("Тип", `${e.size || ""} ${e.type || ""}${e.subtype ? ` (${e.subtype})` : ""}`),
-    row("Мировоззрение", e.alignment),
+    row("Мировоззрение", trAlignment(ru?.alignment || e.alignment)),
     row("КД", ac),
     row("Хиты", `${e.hit_points} (${e.hit_points_roll || e.hit_dice || "?"})`),
-    row("Скорость", Object.entries(e.speed || {}).map(([k, v]) => `${k} ${v}`).join(", ")),
+    row("Скорость", trSpeed(e.speed)),
     row("Характеристики", `СИЛ ${e.strength} ЛОВ ${e.dexterity} ТЕЛ ${e.constitution} ИНТ ${e.intelligence} МДР ${e.wisdom} ХАР ${e.charisma}`),
-    row("Иммунитет к урону", (e.damage_immunities || []).join(", ")),
-    row("Сопротивление урону", (e.damage_resistances || []).join(", ")),
-    row("Уязвимость к урону", (e.damage_vulnerabilities || []).join(", ")),
-    row("Иммунитет к состояниям", refName(e.condition_immunities)),
-    row("Чувства", Object.entries(e.senses || {}).map(([k, v]) => `${k} ${v}`).join(", ")),
-    row("Языки", e.languages),
+    row("Иммунитет к урону", (ru?.damage_immunities || e.damage_immunities || []).map(trDamagePhrase).join(", ")),
+    row("Сопротивление урону", (ru?.damage_resistances || e.damage_resistances || []).map(trDamagePhrase).join(", ")),
+    row("Уязвимость к урону", (ru?.damage_vulnerabilities || e.damage_vulnerabilities || []).map(trDamagePhrase).join(", ")),
+    row("Иммунитет к состояниям", trRefName(e.condition_immunities)),
+    row("Чувства", trSenses(e.senses)),
+    row("Языки", ru?.languages || e.languages),
     row("Опасность (CR)", `${e.challenge_rating} (${e.xp ?? "?"} опыта)`),
   ].forEach((r) => r && box.appendChild(r));
 
-  if (e.special_abilities?.length) {
+  const specialAbilities = ru?.special_abilities ?? e.special_abilities;
+  if (specialAbilities?.length) {
     box.appendChild(el("div", "d-block-title", "Особенности"));
-    for (const sa of e.special_abilities) {
+    for (const sa of specialAbilities) {
       const p = el("div", "d-entry");
       p.innerHTML = `<b>${sa.name}.</b> `;
       p.appendChild(document.createTextNode(sa.desc));
       box.appendChild(p);
     }
   }
-  if (e.actions?.length) {
+  const actions = ru?.actions ?? e.actions;
+  if (actions?.length) {
     box.appendChild(el("div", "d-block-title", "Действия"));
-    for (const a of e.actions) {
+    for (const a of actions) {
       const p = el("div", "d-entry");
       p.innerHTML = `<b>${a.name}.</b> `;
       p.appendChild(document.createTextNode(a.desc));
       box.appendChild(p);
     }
   }
-  if (e.legendary_actions?.length) {
+  const legendaryActions = ru?.legendary_actions ?? e.legendary_actions;
+  if (legendaryActions?.length) {
     box.appendChild(el("div", "d-block-title", "Легендарные действия"));
-    for (const a of e.legendary_actions) {
+    for (const a of legendaryActions) {
       const p = el("div", "d-entry");
       p.innerHTML = `<b>${a.name}.</b> `;
       p.appendChild(document.createTextNode(a.desc));
@@ -460,14 +641,24 @@ function renderGeneric(box, e, ru) {
   for (const [k, v] of Object.entries(e)) {
     if (skip.has(k)) continue;
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
-      const r = row(k, String(v));
+      const ruVal = ru && typeof ru[k] === "string" ? ru[k] : null;
+      const r = row(k, String(ruVal ?? v));
       if (r) box.appendChild(r);
     }
   }
 
-  if (Array.isArray(e.subsections) && e.subsections.length) {
+  const subsections = ru?.subsections ?? e.subsections;
+  if (Array.isArray(subsections) && subsections.length) {
     box.appendChild(el("div", "d-block-title", "Разделы внутри"));
-    for (const s of e.subsections) box.appendChild(el("div", "d-entry", s.name));
+    for (const s of subsections) box.appendChild(el("div", "d-entry", s.name));
+  }
+
+  // предыстории (backgrounds) хранят основной текст не в desc, а в
+  // отдельном объекте feature {name, desc}
+  const feature = ru?.feature ?? e.feature;
+  if (feature?.name) {
+    box.appendChild(el("div", "d-block-title", feature.name));
+    box.appendChild(el("div", "d-desc", joinDesc(feature.desc)));
   }
 }
 
@@ -488,3 +679,4 @@ searchEl.addEventListener("keydown", (e) => {
 
 loadAll();
 searchEl.focus();
+
