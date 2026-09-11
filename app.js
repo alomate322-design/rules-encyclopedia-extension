@@ -74,6 +74,12 @@ let lastQuery = "";
 // (школа заклинания, класс, тип урона и т.п.), не только сам объект.
 const RU_NAME_INDEX = new Map();
 
+// index "category:index" -> сама строка результата (row из DB) — нужен,
+// чтобы ссылки-переходы (например "Разделы внутри" у главы правил, список
+// архетипов у класса и т.п.) можно было открывать кликом, а не только
+// показывать текстом.
+const ROW_INDEX = new Map();
+
 function hexToRgba(hex, alpha) {
   const h = hex.replace("#", "");
   const r = parseInt(h.slice(0, 2), 16);
@@ -205,6 +211,33 @@ function trRefName(ref) {
   return ru || ref.name || ref.index || "";
 }
 
+// Находит загруженную запись (row) по ссылке-объекту вида {index, url} —
+// используется, чтобы делать перекрёстные ссылки (разделы внутри главы
+// правил, архетипы класса и т.п.) кликабельными переходами.
+function rowByRef(ref) {
+  if (!ref || !ref.index) return null;
+  const cat = refCategoryFromUrl(ref.url);
+  if (!cat) return null;
+  return ROW_INDEX.get(`${cat}:${ref.index}`) || null;
+}
+
+// Создаёт кликабельный элемент-переход на другую запись (если она найдена
+// в базе), иначе — обычный текст без ссылки.
+function refLink(ref, className) {
+  const row = rowByRef(ref);
+  const label = trRefName(ref) || ref?.name || ref?.index || "";
+  const node = el(row ? "a" : "span", className, label);
+  if (row) {
+    node.href = "#";
+    node.classList.add("ref-link");
+    node.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      openDetail(row);
+    });
+  }
+  return node;
+}
+
 const searchEl = document.getElementById("search");
 const clearBtn = document.getElementById("clear-btn");
 const filtersEl = document.getElementById("filters");
@@ -294,7 +327,7 @@ async function loadAll() {
           if (Array.isArray(ru.subsections)) searchParts.push(...ru.subsections.map((s) => s.name));
         }
 
-        rows.push({
+        const rowObj = {
           category: cat.slug,
           index: entry.index,
           name: entry.name,
@@ -302,7 +335,9 @@ async function loadAll() {
           entry,
           entryRu: ru,
           search: norm(searchParts.filter(Boolean).join(" ")),
-        });
+        };
+        rows.push(rowObj);
+        ROW_INDEX.set(`${cat.slug}:${entry.index}`, rowObj);
       }
     }),
   );
@@ -490,6 +525,22 @@ function refName(ref) {
   return ref.name || ref.index || "";
 }
 
+// Как row(), но значение — список ссылок-переходов (там, где они находятся
+// в базе, элемент кликабелен и открывает соответствующую карточку).
+function rowLinks(k, refs) {
+  const list = Array.isArray(refs) ? refs : refs ? [refs] : [];
+  if (!list.length) return null;
+  const d = el("div", "d-row");
+  d.appendChild(el("div", "k", k));
+  const val = el("div", "v");
+  list.forEach((ref, i) => {
+    if (i > 0) val.appendChild(document.createTextNode(", "));
+    val.appendChild(refLink(ref));
+  });
+  d.appendChild(val);
+  return d;
+}
+
 function joinDesc(desc) {
   if (Array.isArray(desc)) return desc.join("\n\n");
   if (typeof desc === "string") return desc;
@@ -543,9 +594,9 @@ function openDetail(rowData) {
 function renderClass(box, e, ru) {
   [
     row("Кость хитов", `1к${e.hit_die}`),
-    row("Спасброски", trRefName(e.saving_throws)),
+    rowLinks("Спасброски", e.saving_throws),
     row("Владения", trRefName(e.proficiencies)),
-    row("Архетипы", trRefName(e.subclasses)),
+    rowLinks("Архетипы", e.subclasses),
   ].forEach((r) => r && box.appendChild(r));
 
   const pc = ru?.proficiency_choices || e.proficiency_choices;
@@ -559,13 +610,13 @@ function renderClass(box, e, ru) {
 function renderSpell(box, e, ru) {
   [
     row("Уровень", e.level === 0 ? "заговор" : e.level),
-    row("Школа", trRefName(e.school)),
+    rowLinks("Школа", e.school),
     row("Время накладывания", trCastingTime(e.casting_time)),
     row("Дистанция", trRange(e.range)),
     row("Компоненты", `${(e.components || []).join(", ")}${e.material ? ` (${ru?.material || e.material})` : ""}`),
     row("Длительность", `${trDuration(e.duration) || ""}${e.concentration ? " (концентрация)" : ""}`),
     row("Ритуал", e.ritual ? "да" : "нет"),
-    row("Классы", trRefName(e.classes)),
+    rowLinks("Классы", e.classes),
   ].forEach((r) => r && box.appendChild(r));
 
   const desc = el("div", "d-desc", joinDesc(ru?.desc ?? e.desc));
@@ -595,7 +646,7 @@ function renderMonster(box, e, ru) {
     row("Иммунитет к урону", (ru?.damage_immunities || e.damage_immunities || []).map(trDamagePhrase).join(", ")),
     row("Сопротивление урону", (ru?.damage_resistances || e.damage_resistances || []).map(trDamagePhrase).join(", ")),
     row("Уязвимость к урону", (ru?.damage_vulnerabilities || e.damage_vulnerabilities || []).map(trDamagePhrase).join(", ")),
-    row("Иммунитет к состояниям", trRefName(e.condition_immunities)),
+    rowLinks("Иммунитет к состояниям", e.condition_immunities),
     row("Чувства", trSenses(e.senses)),
     row("Языки", ru?.languages || e.languages),
     row("Опасность (CR)", `${e.challenge_rating} (${e.xp ?? "?"} опыта)`),
@@ -650,7 +701,11 @@ function renderGeneric(box, e, ru) {
   const subsections = ru?.subsections ?? e.subsections;
   if (Array.isArray(subsections) && subsections.length) {
     box.appendChild(el("div", "d-block-title", "Разделы внутри"));
-    for (const s of subsections) box.appendChild(el("div", "d-entry", s.name));
+    for (const s of subsections) {
+      const wrap = el("div", "d-entry");
+      wrap.appendChild(refLink(s));
+      box.appendChild(wrap);
+    }
   }
 
   // предыстории (backgrounds) хранят основной текст не в desc, а в
@@ -679,4 +734,3 @@ searchEl.addEventListener("keydown", (e) => {
 
 loadAll();
 searchEl.focus();
-
