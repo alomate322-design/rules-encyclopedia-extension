@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Bastion Basics",
+    "index": "bastion-basics",
+    "desc": "## Bastion Basics\n\nSee Russian entry.",
+    "url": "/api/2014/bastions/bastion-basics"
+  },
+  {
+    "name": "Bastion Turns",
+    "index": "bastion-turns",
+    "desc": "## Bastion Turns\n\nSee Russian entry.",
+    "url": "/api/2014/bastions/bastion-turns"
+  },
+  {
+    "name": "Bastion Special Facilities",
+    "index": "bastion-rooms",
+    "desc": "## Bastion Special Facilities\n\nSee Russian entry.",
+    "url": "/api/2014/bastions/bastion-rooms"
+  }
+]

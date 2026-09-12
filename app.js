@@ -10,6 +10,13 @@
 // правил) показываем английское имя и как основное — переводить вручную
 // весь корпус (тысячи записей) нереально сделать надёжно за один присест,
 // зато классы/состояния/навыки/характеристики и т.п. — с переводом.
+// Owlbear SDK нужен только для «избранного» мастера: сами правила работают
+// полностью офлайн, и расширение продолжает открываться даже вне Owlbear
+// (например, напрямую по адресу на Render) — тогда звёздочек просто нет.
+import OBR from "https://cdn.jsdelivr.net/npm/@owlbear-rodeo/sdk@3.1.0/+esm";
+
+const FAV_KEY = "com.rules-encyclopedia/favorites"; // room metadata: ["категория:index", …]
+
 const CATEGORIES = [
   { slug: "classes", label: "Классы", file: "classes.json", ruFile: "classes.ru.json", color: "#6a9bd8" },
   { slug: "spells", label: "Заклинания", file: "spells.json", ruFile: "spells.ru.json", color: "#9b7fd4" },
@@ -33,6 +40,18 @@ const CATEGORIES = [
   { slug: "subclasses", label: "Архетипы", file: "subclasses.json", ruFile: "subclasses.ru.json", color: "#7fb0e0" },
   { slug: "traits", label: "Особенности рас", file: "traits.json", ruFile: "traits.ru.json", color: "#6bbf82" },
   { slug: "features", label: "Классовые умения", file: "features.json", ruFile: "features.ru.json", color: "#6f9fc0" },
+  // Бастионы — подсистема DMG 2024, а не 2014. Держим отдельной категорией
+  // с явной пометкой в названии, чтобы не смешивать с остальным деревом.
+  { slug: "bastions", label: "Бастионы (2024)", file: "bastions.json", ruFile: "bastions.ru.json", color: "#b08968" },
+];
+
+// Двухуровневое оглавление: вместо плоской стены из 23 чипов — четыре
+// смысловых группы. Порядок внутри групп — от частого к редкому.
+const GROUPS = [
+  { label: "Персонаж", slugs: ["classes", "subclasses", "features", "races", "subraces", "traits", "backgrounds", "feats", "skills", "ability-scores", "alignments", "languages"] },
+  { label: "Бой и правила", slugs: ["conditions", "rule-sections", "rules", "damage-types", "weapon-properties"] },
+  { label: "Магия", slugs: ["spells", "magic-schools", "magic-items"] },
+  { label: "Мир и мастеру", slugs: ["monsters", "equipment", "bastions"] },
 ];
 
 // Небольшой ручной словарь для поиска по-русски там, где в датасете нет
@@ -68,6 +87,97 @@ let DB = []; // {category, index, name, nameEn, entry, search}
 let loaded = false;
 let activeFilter = null;
 let lastQuery = "";
+
+// ---------- избранное (только мастер) ----------
+// Хранится в метаданных комнаты Owlbear, поэтому переживает закрытие окна и
+// видно на любом устройстве, где открыта эта комната. Писать может только GM;
+// игрокам звёздочки не показываются вообще.
+let isGM = false;
+let favorites = new Set(); // "категория:index"
+let showingFavorites = false;
+
+function favKey(row) {
+  return `${row.category}:${row.index}`;
+}
+
+function isFavorite(row) {
+  return favorites.has(favKey(row));
+}
+
+async function toggleFavorite(row) {
+  if (!isGM) return;
+  const key = favKey(row);
+  if (favorites.has(key)) favorites.delete(key);
+  else favorites.add(key);
+  try {
+    await OBR.room.setMetadata({ [FAV_KEY]: [...favorites] });
+  } catch (err) {
+    console.warn("[encyclopedia] не удалось сохранить избранное", err);
+  }
+}
+
+function applyFavoritesMeta(metadata) {
+  const list = metadata?.[FAV_KEY];
+  favorites = new Set(Array.isArray(list) ? list.filter((x) => typeof x === "string") : []);
+}
+
+// Кнопка-звёздочка. Возвращает null для игрока и вне Owlbear — тогда её
+// просто нет в разметке, а не «есть, но не работает».
+function starButton(row, onDone) {
+  if (!isGM) return null;
+  const btn = el("button", "star-btn", isFavorite(row) ? "★" : "☆");
+  btn.title = isFavorite(row) ? "Убрать из избранного" : "В избранное";
+  btn.classList.toggle("is-on", isFavorite(row));
+  btn.addEventListener("click", async (ev) => {
+    ev.preventDefault();
+    ev.stopPropagation(); // клик по звезде не должен открывать статью
+    await toggleFavorite(row);
+    btn.textContent = isFavorite(row) ? "★" : "☆";
+    btn.classList.toggle("is-on", isFavorite(row));
+    btn.title = isFavorite(row) ? "Убрать из избранного" : "В избранное";
+    if (onDone) onDone();
+  });
+  return btn;
+}
+
+async function initOwlbear() {
+  if (!OBR.isAvailable) return; // открыто вне Owlbear — избранного нет
+  await new Promise((resolve) => OBR.onReady(resolve));
+  try {
+    isGM = (await OBR.player.getRole()) === "GM";
+    applyFavoritesMeta(await OBR.room.getMetadata());
+    OBR.player.onChange((player) => {
+      const next = player?.role === "GM";
+      if (next !== isGM) {
+        isGM = next;
+        if (!isGM) showingFavorites = false;
+        renderFilters();
+        refreshCurrentView();
+      }
+    });
+    OBR.room.onMetadataChange((metadata) => {
+      applyFavoritesMeta(metadata);
+      refreshCurrentView();
+    });
+  } catch (err) {
+    console.warn("[encyclopedia] Owlbear недоступен, избранное отключено", err);
+    isGM = false;
+  }
+  if (loaded) {
+    renderFilters();
+    refreshCurrentView();
+  }
+}
+
+// Перерисовывает то, что сейчас на экране, не меняя режим.
+function refreshCurrentView() {
+  if (!loaded) return;
+  if (!detailEl.hidden) return; // в открытой статье ничего не дёргаем
+  if (showingFavorites) renderFavorites();
+  else if (lastQuery) runSearch();
+  else if (activeFilter) browseCategory(activeFilter);
+  else renderBrowseHint();
+}
 
 // index "category:index" -> русское имя, собирается при загрузке из всех
 // файлов *.ru.json — используется, чтобы переводить и перекрёстные ссылки
@@ -356,10 +466,27 @@ function renderFilters() {
   const counts = {};
   for (const row of DB) counts[row.category] = (counts[row.category] || 0) + 1;
 
-  const allChip = el("button", "filter-chip active", "Всё");
+  const allChip = el("button", "filter-chip", "Всё");
+  allChip.classList.toggle("active", !activeFilter && !showingFavorites);
   allChip.dataset.slug = "";
   allChip.addEventListener("click", () => setFilter(null));
   filtersEl.appendChild(allChip);
+
+  // Вкладка избранного — только для мастера.
+  if (isGM) {
+    const favChip = el("button", "filter-chip fav-chip", `★ Избранное (${favorites.size})`);
+    favChip.dataset.slug = "__fav";
+    favChip.classList.toggle("active", showingFavorites);
+    favChip.addEventListener("click", () => {
+      showingFavorites = true;
+      activeFilter = null;
+      searchEl.value = "";
+      lastQuery = "";
+      renderFilters();
+      renderFavorites();
+    });
+    filtersEl.appendChild(favChip);
+  }
 
   for (const cat of CATEGORIES) {
     if (!counts[cat.slug]) continue;
@@ -372,10 +499,47 @@ function renderFilters() {
 
 function setFilter(slug) {
   activeFilter = slug;
+  showingFavorites = false;
   for (const chip of filtersEl.querySelectorAll(".filter-chip")) {
     chip.classList.toggle("active", chip.dataset.slug === (slug || ""));
   }
   runSearch();
+}
+
+// ---------- избранное: отдельный экран ----------
+
+function renderFavorites() {
+  detailEl.hidden = true;
+  resultsEl.hidden = false;
+  resultsEl.innerHTML = "";
+
+  const rows = DB.filter(isFavorite);
+  if (!rows.length) {
+    const empty = el("div", "hint");
+    empty.innerHTML =
+      "Пока пусто. Открой любую запись или найди её в списке и нажми <b>☆</b> — " +
+      "она появится здесь. Избранное хранится в данных комнаты, поэтому не " +
+      "потеряется при закрытии окна и видно во всех твоих устройствах в этой комнате. " +
+      "Игроки звёздочек не видят.";
+    resultsEl.appendChild(empty);
+    return;
+  }
+
+  // Внутри избранного группируем по категориям — так список из 30 закладок
+  // читается быстрее, чем сплошной перечень.
+  const byCat = new Map();
+  for (const row of rows) {
+    if (!byCat.has(row.category)) byCat.set(row.category, []);
+    byCat.get(row.category).push(row);
+  }
+  const groups = [];
+  for (const cat of CATEGORIES) {
+    const list = byCat.get(cat.slug);
+    if (!list) continue;
+    list.sort((a, b) => (a.nameRu || a.name).localeCompare(b.nameRu || b.name));
+    groups.push({ title: cat.label, rows: list });
+  }
+  renderGroupedResults(groups, () => renderFavorites());
 }
 
 // ---------- поиск ----------
@@ -441,14 +605,24 @@ function renderResultsList(rows, q) {
     return;
   }
 
-  for (const row of rows) {
-    const item = el("div", "result-row");
-    const nameWrap = el("div", "result-name");
-    nameWrap.textContent = row.nameRu || row.name;
-    if (row.nameRu) {
-      const en = el("span", "en", row.name);
-      nameWrap.appendChild(en);
-    }
+  for (const row of rows) resultsEl.appendChild(resultRow(row));
+}
+
+// Одна строка результата. onFavChange нужен там, где снятие звезды должно
+// перерисовать сам список (экран избранного).
+function resultRow(row, opts = {}) {
+  const item = el("div", "result-row");
+  const nameWrap = el("div", "result-name");
+  nameWrap.textContent = row.nameRu || row.name;
+  if (row.nameRu) {
+    const en = el("span", "en", row.name);
+    nameWrap.appendChild(en);
+  }
+  item.appendChild(nameWrap);
+
+  if (opts.note) item.appendChild(el("span", "result-note", opts.note));
+
+  if (!opts.hideBadge) {
     const badge = el("span", "result-badge", CAT_BY_SLUG[row.category]?.label || row.category);
     const color = CAT_BY_SLUG[row.category]?.color;
     if (color) {
@@ -456,15 +630,36 @@ function renderResultsList(rows, q) {
       badge.style.borderColor = color;
       badge.style.background = hexToRgba(color, 0.14);
     }
-    item.append(nameWrap, badge);
+    item.appendChild(badge);
+  }
 
-    const wrap = el("div");
-    wrap.appendChild(item);
-    const snip = snippetFor(row);
-    if (snip) wrap.appendChild(el("div", "result-snippet", snip));
+  const star = starButton(row, opts.onFavChange);
+  if (star) item.appendChild(star);
 
-    wrap.addEventListener("click", () => openDetail(row));
-    resultsEl.appendChild(wrap);
+  const wrap = el("div", "result-wrap");
+  wrap.appendChild(item);
+  const snip = opts.hideSnippet ? "" : snippetFor(row);
+  if (snip) wrap.appendChild(el("div", "result-snippet", snip));
+  wrap.addEventListener("click", () => openDetail(row));
+  return wrap;
+}
+
+// Список с заголовками-группами: [{title, rows, note?}, …]
+function renderGroupedResults(groups, onFavChange) {
+  detailEl.hidden = true;
+  resultsEl.hidden = false;
+  resultsEl.innerHTML = "";
+  for (const g of groups) {
+    if (!g.rows?.length) continue;
+    const head = el("div", "group-head");
+    head.appendChild(el("span", "group-title", g.title));
+    head.appendChild(el("span", "group-count", String(g.rows.length)));
+    resultsEl.appendChild(head);
+    for (const row of g.rows) {
+      resultsEl.appendChild(
+        resultRow(row, { hideBadge: g.hideBadge, note: g.noteFor?.(row), onFavChange }),
+      );
+    }
   }
 }
 
@@ -482,16 +677,22 @@ function renderBrowseHint() {
   hint.innerHTML =
     "Начни вводить что угодно — название (<b>варвар</b>, <b>fireball</b>) или кусок содержания " +
     "(<b>укрытие</b>, <b>под водой</b>, <b>преимущество</b>, эффект заклинания и т.п.) — поиск ищет " +
-    "не только по названию, но и по всему тексту описаний. Цветной значок справа сразу показывает " +
-    "категорию — заклинание, монстр, состояние и т.д. Либо выбери категорию ниже, чтобы просто полистать.";
+    "не только по названию, но и по всему тексту описаний. Либо выбери раздел ниже.";
   resultsEl.appendChild(hint);
 
   const counts = {};
   for (const row of DB) counts[row.category] = (counts[row.category] || 0) + 1;
-  for (const cat of CATEGORIES) {
-    if (!counts[cat.slug]) continue;
+
+  const seen = new Set();
+  const drawCat = (cat, note) => {
+    if (!counts[cat.slug]) return;
+    seen.add(cat.slug);
     const row = el("div", "browse-cat");
-    row.appendChild(el("span", "label", cat.label));
+    const label = el("span", "label", cat.label);
+    if (cat.color) label.style.borderLeft = `3px solid ${cat.color}`;
+    label.style.paddingLeft = "8px";
+    row.appendChild(label);
+    if (note) row.appendChild(el("span", "browse-note", note));
     row.appendChild(el("span", "count", String(counts[cat.slug])));
     row.addEventListener("click", () => {
       setFilter(cat.slug);
@@ -499,10 +700,77 @@ function renderBrowseHint() {
       browseCategory(cat.slug);
     });
     resultsEl.appendChild(row);
+  };
+
+  for (const group of GROUPS) {
+    const cats = group.slugs.map((s) => CAT_BY_SLUG[s]).filter((c) => c && counts[c.slug]);
+    if (!cats.length) continue;
+    resultsEl.appendChild(el("div", "group-head-lg", group.label));
+    for (const cat of cats) {
+      drawCat(cat, cat.slug === "features" || cat.slug === "subclasses" ? "по классам" : "");
+    }
+  }
+
+  // Если в датасете появится категория, не попавшая ни в одну группу, она всё
+  // равно должна быть видна, а не исчезнуть из оглавления.
+  const rest = CATEGORIES.filter((c) => counts[c.slug] && !seen.has(c.slug));
+  if (rest.length) {
+    resultsEl.appendChild(el("div", "group-head-lg", "Прочее"));
+    rest.forEach((c) => drawCat(c, ""));
   }
 }
 
+// ---------- умения и архетипы, разложенные по классам ----------
+
+const CLASS_ORDER = ["barbarian", "bard", "cleric", "druid", "fighter", "monk", "paladin", "ranger", "rogue", "sorcerer", "warlock", "wizard"];
+
+function classSortKey(idx) {
+  const i = CLASS_ORDER.indexOf(idx);
+  return i === -1 ? 99 : i;
+}
+
+// Все записи категории, сгруппированные по классу: {classIndex, title, rows}
+function groupByClass(slug) {
+  const buckets = new Map();
+  for (const row of DB) {
+    if (row.category !== slug) continue;
+    const cls = row.entry.class;
+    const idx = cls?.index || "—";
+    if (!buckets.has(idx)) buckets.set(idx, []);
+    buckets.get(idx).push(row);
+  }
+  const groups = [];
+  for (const [idx, rows] of [...buckets].sort((a, b) => classSortKey(a[0]) - classSortKey(b[0]))) {
+    const classRow = ROW_INDEX.get(`classes:${idx}`);
+    const title = classRow ? classRow.nameRu || classRow.name : idx;
+    // внутри класса: сначала общие умения по уровню, потом по архетипам
+    rows.sort((a, b) => {
+      const sa = a.entry.subclass?.index || "";
+      const sb = b.entry.subclass?.index || "";
+      if (sa !== sb) return sa.localeCompare(sb);
+      return (a.entry.level || 0) - (b.entry.level || 0);
+    });
+    groups.push({
+      title,
+      rows,
+      hideBadge: true,
+      noteFor: (row) => {
+        const lvl = row.entry.level ? `${row.entry.level} ур.` : "";
+        const sub = row.entry.subclass ? trRefName(row.entry.subclass) : "";
+        return [sub, lvl].filter(Boolean).join(" · ");
+      },
+    });
+  }
+  return groups;
+}
+
 function browseCategory(slug) {
+  // Классовые умения (их сотни) и архетипы листать плоским списком
+  // бессмысленно — раскладываем по классам, а внутри по архетипу и уровню.
+  if (slug === "features" || slug === "subclasses") {
+    renderGroupedResults(groupByClass(slug), () => browseCategory(slug));
+    return;
+  }
   const rows = DB.filter((r) => r.category === slug).sort((a, b) => (a.nameRu || a.name).localeCompare(b.nameRu || b.name));
   renderResultsList(rows, "");
 }
@@ -566,9 +834,16 @@ function openDetail(rowData) {
   });
   detailEl.appendChild(back);
 
+  const titleRow = el("div", "d-title-row");
   const title = el("div", "d-title", rowData.nameRu || rowData.name);
   if (rowData.nameRu) title.appendChild(el("span", "en", rowData.name));
-  detailEl.appendChild(title);
+  titleRow.appendChild(title);
+  const star = starButton(rowData);
+  if (star) {
+    star.classList.add("star-lg");
+    titleRow.appendChild(star);
+  }
+  detailEl.appendChild(titleRow);
   const catInfo = CAT_BY_SLUG[rowData.category];
   const sub = el("div", "d-sub", catInfo?.label || rowData.category);
   if (catInfo?.color) sub.style.color = catInfo.color;
@@ -605,6 +880,47 @@ function renderClass(box, e, ru) {
     d.textContent = pc.map((x) => x.desc).filter(Boolean).join("\n");
     box.appendChild(d);
   }
+
+  // Умения самого класса — списком по уровням, сразу переходами.
+  const own = DB.filter((r) => r.category === "features" && r.entry.class?.index === e.index && !r.entry.subclass)
+    .sort((a, b) => (a.entry.level || 0) - (b.entry.level || 0));
+  if (own.length) {
+    box.appendChild(el("div", "d-block-title", "Умения класса по уровням"));
+    box.appendChild(featureLinkList(own));
+  }
+
+  // Умения архетипов — отдельным блоком на каждый архетип этого класса, чтобы
+  // не искать их в общем списке из сотен записей.
+  const subs = DB.filter((r) => r.category === "subclasses" && r.entry.class?.index === e.index)
+    .sort((a, b) => (a.nameRu || a.name).localeCompare(b.nameRu || b.name));
+  for (const sub of subs) {
+    const subFeatures = DB.filter((r) => r.category === "features" && r.entry.subclass?.index === sub.index)
+      .sort((a, b) => (a.entry.level || 0) - (b.entry.level || 0));
+    if (!subFeatures.length) continue;
+    const head = el("div", "d-block-title");
+    head.appendChild(document.createTextNode("Архетип: "));
+    head.appendChild(refLink({ index: sub.index, name: sub.name, url: `/api/2014/subclasses/${sub.index}` }));
+    box.appendChild(head);
+    box.appendChild(featureLinkList(subFeatures));
+  }
+}
+
+// Компактный список умений с уровнем и переходом в статью.
+function featureLinkList(rows) {
+  const wrap = el("div");
+  for (const r of rows) {
+    const line = el("div", "d-entry feature-line");
+    line.appendChild(el("span", "feature-level", r.entry.level ? `${r.entry.level} ур.` : "—"));
+    const link = el("a", "ref-link", r.nameRu || r.name);
+    link.href = "#";
+    link.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      openDetail(r);
+    });
+    line.appendChild(link);
+    wrap.appendChild(line);
+  }
+  return wrap;
 }
 
 function renderSpell(box, e, ru) {
@@ -685,10 +1001,41 @@ function renderMonster(box, e, ru) {
 }
 
 function renderGeneric(box, e, ru) {
+  // Для умения и архетипа сразу показываем, к какому классу они относятся, —
+  // раньше это приходилось угадывать по названию.
+  if (e.class) {
+    const r = rowLinks("Класс", e.class);
+    if (r) box.appendChild(r);
+  }
+  if (e.subclass) {
+    const r = rowLinks("Архетип", e.subclass);
+    if (r) box.appendChild(r);
+  }
+  if (typeof e.level === "number") {
+    const r = row("Уровень", `${e.level}`);
+    if (r) box.appendChild(r);
+  }
+
   const desc = ru?.desc ?? e.desc;
   if (desc !== undefined) box.appendChild(el("div", "d-desc", stripMd(joinDesc(desc))));
 
-  const skip = new Set(["name", "index", "url", "desc", "image", "subsections"]);
+  // В статье архетипа — его умения по уровням.
+  if (e.subclass_flavor || (e.class && e.subclass_levels)) {
+    const feats = DB.filter((r) => r.category === "features" && r.entry.subclass?.index === e.index)
+      .sort((a, b) => (a.entry.level || 0) - (b.entry.level || 0));
+    if (feats.length) {
+      box.appendChild(el("div", "d-block-title", "Умения архетипа по уровням"));
+      box.appendChild(featureLinkList(feats));
+    }
+  }
+
+  // level/class/subclass уже показаны выше явно; служебные поля датасета
+  // (parent, reference, feature_specific, prerequisites) в интерфейсе не нужны.
+  const skip = new Set([
+    "name", "index", "url", "desc", "image", "subsections",
+    "level", "class", "subclass", "parent", "reference", "feature_specific",
+    "prerequisites", "subclass_levels",
+  ]);
   for (const [k, v] of Object.entries(e)) {
     if (skip.has(k)) continue;
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean") {
@@ -733,4 +1080,5 @@ searchEl.addEventListener("keydown", (e) => {
 });
 
 loadAll();
+initOwlbear();
 searchEl.focus();
