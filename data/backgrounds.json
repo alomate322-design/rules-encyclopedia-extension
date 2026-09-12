@@ -338,5 +338,137 @@
       }
     },
     "url": "/api/2014/backgrounds/acolyte"
+  },
+  {
+    "index": "charlatan",
+    "name": "Charlatan",
+    "feature": {
+      "name": "Ложная личность",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/charlatan"
+  },
+  {
+    "index": "criminal",
+    "name": "Criminal",
+    "feature": {
+      "name": "Криминальные связи",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/criminal"
+  },
+  {
+    "index": "entertainer",
+    "name": "Entertainer",
+    "feature": {
+      "name": "Популярность",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/entertainer"
+  },
+  {
+    "index": "folk-hero",
+    "name": "Folk Hero",
+    "feature": {
+      "name": "Гостеприимство простого люда",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/folk-hero"
+  },
+  {
+    "index": "guild-artisan",
+    "name": "Guild Artisan",
+    "feature": {
+      "name": "Членство в гильдии",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/guild-artisan"
+  },
+  {
+    "index": "hermit",
+    "name": "Hermit",
+    "feature": {
+      "name": "Открытие",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/hermit"
+  },
+  {
+    "index": "noble",
+    "name": "Noble",
+    "feature": {
+      "name": "Привилегии положения",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/noble"
+  },
+  {
+    "index": "outlander",
+    "name": "Outlander",
+    "feature": {
+      "name": "Странник",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/outlander"
+  },
+  {
+    "index": "sage",
+    "name": "Sage",
+    "feature": {
+      "name": "Исследователь",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/sage"
+  },
+  {
+    "index": "sailor",
+    "name": "Sailor",
+    "feature": {
+      "name": "Проезд на корабле",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/sailor"
+  },
+  {
+    "index": "soldier",
+    "name": "Soldier",
+    "feature": {
+      "name": "Воинское звание",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/soldier"
+  },
+  {
+    "index": "urchin",
+    "name": "Urchin",
+    "feature": {
+      "name": "Городские тропы",
+      "desc": [
+        "See Russian entry."
+      ]
+    },
+    "url": "/api/2014/backgrounds/urchin"
   }
 ]
